@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Dependencies
+
+This project uses node 20.3.1
+
+If you have `nvm` installed you can run `nvm use` in this directory. 
+Otherwise, install node 20.3.1 using the node version manager of your choice.
+
 ## Getting Started
 
 First, run the development server:
