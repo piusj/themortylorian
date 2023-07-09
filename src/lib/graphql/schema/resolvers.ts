@@ -1,7 +1,7 @@
 import { GraphQLContext } from '@/lib/graphql/context';
-import { getMe } from '@/domain/auth/getMe';
-import { getUsers } from '@/domain/user/getUsers';
-import { getHighscores } from '@/domain/highscores/getHighscores';
+import { highscores } from '@/domain/highscores';
+import {getMe} from "@/domain/authentication";
+import {getUsers} from "@/domain/users";
 
 // const {
 //   prisma,
@@ -24,7 +24,7 @@ export default {
     highscores: async (_, _args, context: GraphQLContext) => {
       const { prisma } = context;
 
-      return getHighscores(prisma);
+      return highscores(prisma);
     },
   },
 };

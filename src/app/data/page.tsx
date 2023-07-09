@@ -1,10 +1,10 @@
 'use client';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Character } from 'rickmortyapi';
 import { Box } from '@chakra-ui/react';
+import Characters from '../../lib/graphql/queries/GetCharacters.graphql';
 import GraphQLError from '@/components/GraphQLError';
-import Characters from './queries/GetCharacters.graphql';
 
 export default function Data() {
   const { loading, error, data } = useQuery(Characters);

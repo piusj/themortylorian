@@ -1,4 +1,3 @@
-import '../lib/globals.css';
 import React from 'react';
 import { Inter } from 'next/font/google';
 import { Providers } from '@/lib/Providers';

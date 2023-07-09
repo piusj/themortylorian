@@ -1,7 +1,7 @@
 import { User } from 'next-auth';
 import { throwNotAuthenticatedError } from '@/lib/exceptions/graphqlErrors';
 import { PrismaClient } from '@prisma/client';
-import { authenticateUser } from '@/domain/auth/authentication';
+import { authenticateUser } from '@/domain/authentication';
 
 const prisma = new PrismaClient();
 

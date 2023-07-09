@@ -1,31 +1,23 @@
 'use client';
 
-import { useSession, signIn, signOut } from 'next-auth/react';
-import styles from './page.module.css';
-import { Box } from '@chakra-ui/react';
-import { Session } from 'next-auth';
+import {Box, Button, Link, Center, useColorModeValue} from '@chakra-ui/react';
+import Page from '@/components/Page';
+import { useLinkCallback } from '@/hooks/routes';
+import HelloUser from '@/components/HelloUser';
 
 export default function Home() {
-  const { data: session } = useSession<{ session: Session }>();
+  const goToData = useLinkCallback('/data');
 
   return (
-    <main className={styles.main}>
-      {session ? (
-        <Box>
-          Signed in as {session.user?.email} <br />
-          <button onClick={() => signOut()}>Sign out</button>
+    <Page bg={useColorModeValue('blue.100', 'blue.900')}>
+      <Center flexDirection="column">
+        <Box my={4}>
+          <HelloUser />
         </Box>
-      ) : (
-        <Box>
-          Not signed in <br />
-          <button onClick={() => signIn('google')}>Sign in</button>
+        <Box my={4}>
+          <Button onClick={goToData}>Start</Button>
         </Box>
-      )}
-      <div className={styles.description}>
-
-        <a href="/data">Go to data</a>
-
-      </div>
-    </main>
+      </Center>
+    </Page>
   );
 }
