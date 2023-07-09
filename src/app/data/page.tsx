@@ -1,33 +1,29 @@
 'use client';
 
 import { useQuery, gql } from '@apollo/client';
-import {Character} from "rickmortyapi";
-import {Box} from "@chakra-ui/react";
-import GraphQLError from "@/components/GraphQLError";
-
-const QUERY_CHARACTERS = gql`
-  query {
-    characters(page: 1) {
-      info {
-        count
-      }
-      results {
-        name
-      }
-    }
-  }
-`;
+import { Character } from 'rickmortyapi';
+import { Box } from '@chakra-ui/react';
+import GraphQLError from '@/components/GraphQLError';
+import Characters from './queries/GetCharacters.graphql';
 
 export default function Data() {
-  const { loading, error, data } = useQuery(QUERY_CHARACTERS);
+  const { loading, error, data } = useQuery(Characters);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <GraphQLError error={error} query={QUERY_CHARACTERS} />;
+  if (error) return <GraphQLError error={error} />;
 
-  const { characters: { info, results }} = data;
+  const {
+    characters: { info, results },
+  } = data;
+
+  console.log({ data });
 
   // Process and display the private data
-  return <Box>{results.map(({name}: Character) => (
-    <pre>{name}</pre>
-  ))}</Box>;
+  return (
+    <Box>
+      {results.map(({ name, id }: Character) => (
+        <pre key={id}>{name}</pre>
+      ))}
+    </Box>
+  );
 }

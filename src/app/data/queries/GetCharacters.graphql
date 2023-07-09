@@ -1,0 +1,28 @@
+query Characters {
+  characters(page: 1) {
+    info {
+      count
+    }
+    results {
+      id
+      name
+    }
+  }
+  me {
+    highscores {
+      score
+    }
+  }
+  users {
+    id
+    name
+    email
+  }
+  highscores {
+    score
+    user {
+      name
+      email
+    }
+  }
+}

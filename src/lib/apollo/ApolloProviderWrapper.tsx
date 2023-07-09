@@ -3,8 +3,6 @@ import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache, from } fro
 import { setContext } from '@apollo/client/link/context';
 import { Session } from 'next-auth';
 
-console.log(process.env.NEXT_PUBLIC_BASE_URL, process.env.NEXT_PUBLIC_GRAPHQL_PATH);
-
 const httpLink = createHttpLink({
   uri: `${process.env.NEXT_PUBLIC_BASE_URL}${process.env.NEXT_PUBLIC_GRAPHQL_PATH}`,
   credentials: "include",

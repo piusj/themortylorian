@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/react';
 
-export default function GraphQLError({ error, query }) {
-  console.error({ error, query });
+export default function GraphQLError({ error }) {
+  console.error({ error });
 
-  if ((error.networkError.statusCode = 401))
+  if ((error.networkError?.statusCode === 401))
     return (
       <Wrapper>
         {error.networkError.result.errors.map((err) => (
