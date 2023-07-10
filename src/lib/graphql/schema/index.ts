@@ -1,13 +1,13 @@
 import { buildHTTPExecutor } from '@graphql-tools/executor-http';
-import { schemaFromExecutor } from '@graphql-tools/wrap';
-import { stitchSchemas } from '@graphql-tools/stitch';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import typesDefs from '@/lib/graphql/schema/typesDefs';
+import { stitchSchemas } from '@graphql-tools/stitch';
+import { schemaFromExecutor } from '@graphql-tools/wrap';
 import resolvers from '@/lib/graphql/schema/resolvers';
+import typesDefs from '@/lib/graphql/schema/typesDefs';
 
 const THIRD_PARTY_API_URL = 'https://rickandmortyapi.com/graphql';
 
-async function createSchema() {
+export async function createSchema() {
   const localSubSchema = makeExecutableSchema({
     typeDefs: typesDefs,
     resolvers: resolvers,
@@ -27,5 +27,3 @@ async function createSchema() {
     subschemas: [localSubSchema, remoteSubSchema],
   });
 }
-
-export const schema = await createSchema();

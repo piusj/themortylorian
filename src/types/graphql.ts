@@ -142,7 +142,7 @@ export type Locations = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  putUser?: Maybe<User>;
+  putUser: User;
 };
 
 
@@ -237,7 +237,7 @@ export type User = {
 export type GetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDataQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null } | null, results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null } | null> | null } | null, me: { __typename?: 'User', username?: string | null, title?: string | null, highscores: Array<{ __typename?: 'Highscore', score: number } | null> }, users: Array<{ __typename?: 'User', id: string, name: string, email: string } | null>, highscores: Array<{ __typename?: 'Highscore', score: number, user: { __typename?: 'User', name: string, email: string, username?: string | null, title?: string | null } } | null> };
+export type GetDataQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null } | null, results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null } | null> | null } | null, me: { __typename?: 'User', username?: string | null, title?: string | null, highscores: Array<{ __typename?: 'Highscore', score: number } | null> }, users: Array<{ __typename?: 'User', id: string, name: string, email: string, username?: string | null, title?: string | null } | null>, highscores: Array<{ __typename?: 'Highscore', score: number, user: { __typename?: 'User', id: string, name: string, email: string, username?: string | null, title?: string | null } } | null> };
 
 export type PutUserMutationVariables = Exact<{
   username?: InputMaybe<Scalars['String']['input']>;
@@ -245,7 +245,7 @@ export type PutUserMutationVariables = Exact<{
 }>;
 
 
-export type PutUserMutation = { __typename?: 'Mutation', putUser?: { __typename?: 'User', username?: string | null, title?: string | null } | null };
+export type PutUserMutation = { __typename?: 'Mutation', putUser: { __typename?: 'User', username?: string | null, title?: string | null } };
 
 
 export const GetDataDocument = gql`
@@ -270,10 +270,13 @@ export const GetDataDocument = gql`
     id
     name
     email
+    username
+    title
   }
   highscores {
     score
     user {
+      id
       name
       email
       username

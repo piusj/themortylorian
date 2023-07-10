@@ -1,20 +1,22 @@
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { prisma, PrismaClient } from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { getUserByEmail } from '@/lib/prisma/user';
-import { Session } from '@/types/overrides';
 
 // For advanced auth handling see:
 // https://next-auth.js.org/configuration/initialization#route-handlers-app
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
 
 const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
     }),
     // Add other providers if needed
   ],
@@ -40,10 +42,13 @@ const authOptions: NextAuthOptions = {
     // for increased security. If you want to make something available you added to the token (like access_token and
     // user.id from above) via the jwt() callback, you have to explicitly forward it here to make it available to the
     // client.
-    async session({ session, token }): Session {
+    async session({ session, token, user }) {
       // Send properties to the client, like an access_token and user id from a provider.
       session.accessToken = token.accessToken;
-      session.user = await getUserByEmail(prisma, session.user.email);
+
+      if (session.user?.email) {
+        session.user = await getUserByEmail(prisma, session.user.email);
+      }
 
       return session;
     },

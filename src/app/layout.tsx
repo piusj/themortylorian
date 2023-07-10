@@ -1,8 +1,8 @@
-import React from 'react';
 import { Inter } from 'next/font/google';
-import { Providers } from '@/wrappers/Providers';
 import { getServerSession } from 'next-auth';
+import React from 'react';
 import authOptions from '@/lib/authOptions';
+import { Providers } from '@/wrappers/Providers';
 
 const inter = Inter({ subsets: ['latin'] });
 

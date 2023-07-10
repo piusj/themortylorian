@@ -8,13 +8,13 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useCurrentUser } from '@/hooks/session';
 import { useState } from 'react';
-import StepUsernameBody from '@/components/WelcomeModal/StepUsernameBody';
-import StepTitleBody from '@/components/WelcomeModal/StepTitleBody';
 import StepDoneBody from '@/components/WelcomeModal/StepDoneBody';
-import { useMutation } from '@apollo/client';
-import PutUser from '@/lib/graphql/queries/PutUser.graphql';
+import StepTitleBody from '@/components/WelcomeModal/StepTitleBody';
+import StepUsernameBody from '@/components/WelcomeModal/StepUsernameBody';
+import { useCurrentUser } from '@/hooks/session';
+import { Prisma } from '@/lib/prisma';
+import { MutationPutUserArgs, usePutUserMutation } from '@/types/graphql';
 
 enum Steps {
   USERNAME = 1,
@@ -22,33 +22,37 @@ enum Steps {
   DONE = 3,
 }
 
-const getDefaultStep = (user) => {
+const getDefaultStep = (user?: Prisma.User) => {
   return Steps.USERNAME;
 
-  if (!user.username) return Steps.USERNAME;
-  if (!user.title) return Steps.TITLE;
+  if (!user?.username) return Steps.USERNAME;
+  if (!user?.title) return Steps.TITLE;
   return Steps.DONE;
 };
 
 export default function WelcomeModal() {
-  const [user, updateUser] = useCurrentUser();
+  const { user, updateUser } = useCurrentUser();
+  const [username, setUserName] = useState(user?.username);
+  const [title, setTitle] = useState(user?.title);
+  const [step, setStep] = useState(getDefaultStep(user));
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: step !== Steps.DONE });
+  const [loading, setLoading] = useState(false);
+  // todo: Consider wrapping mutations in hook with error handling
+  const [saveUser] = usePutUserMutation();
 
   if (!user) return null;
 
-  const defaultStep = getDefaultStep(user);
-  const [username, setUserName] = useState(user.username);
-  const [title, setTitle] = useState(user.title);
-  const [step, setStep] = useState(defaultStep);
-  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: defaultStep !== Steps.DONE });
-  const [loading, setLoading] = useState(false);
-  // todo: Consider wrapping mutations in hook with error handling
-  const [saveUser] = useMutation(PutUser);
-
-  async function handleSaveUser(variables) {
+  async function handleSaveUser(variables: MutationPutUserArgs) {
     setLoading(true);
 
-    const newUserValues = await saveUser({ variables });
-    await updateUser(newUserValues);
+    const { data } = await saveUser({ variables });
+
+    if (data?.putUser) {
+      await updateUser({
+        username: data?.putUser.username,
+        title: data?.putUser.title,
+      });
+    }
 
     setLoading(false);
   }
@@ -64,7 +68,7 @@ export default function WelcomeModal() {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={null}>
+    <Modal isOpen={isOpen} onClose={() => null}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Modal Title</ModalHeader>
@@ -91,4 +95,4 @@ export default function WelcomeModal() {
   );
 }
 
-const BlueButton = (props) => <Button colorScheme="blue" {...props} />;
+const BlueButton = ({ ...props }) => <Button colorScheme="blue" {...props} />;

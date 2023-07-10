@@ -21,6 +21,6 @@ export default /* GraphQL */ `
   }
 
   type Mutation {
-    putUser(username: String, title: String): User
+    putUser(username: String, title: String): User!
   }
 `;

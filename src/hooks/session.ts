@@ -1,19 +1,22 @@
 import { useSession } from 'next-auth/react';
-import { User } from '@/lib/prisma';
-import { Session } from '@/types/overrides';
+import { Prisma } from '@/lib/prisma';
 
-export function useCurrentUser(): User | null {
-  const { data: session, update } = useSession<{ session: Session }>();
+export function useCurrentUser() {
+  const { data: session, update } = useSession();
 
-  async function updateUser(newValues) {
+  const user = session?.user;
+
+  async function updateUser(userValues: Partial<Prisma.User>) {
+    if (!user) return null;
+
     await update({
       ...session,
       user: {
-        ...session?.user,
-        ...newValues,
+        ...user,
+        ...userValues,
       },
     });
   }
 
-  return [session?.user, updateUser];
+  return { user, updateUser };
 }

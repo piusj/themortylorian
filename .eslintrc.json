@@ -4,12 +4,10 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "prettier"
   ],
-  "plugins": ["prettier", "@typescript-eslint", "unused-imports"],
+  "plugins": ["@typescript-eslint", "unused-imports"],
   "rules": {
-    "prettier/prettier": "error",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": ["off"],
     "import/order": [

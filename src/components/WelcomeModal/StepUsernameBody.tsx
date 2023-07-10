@@ -1,7 +1,12 @@
 import { Box, Heading, Input } from '@chakra-ui/react';
+import React, { Dispatch } from 'react';
 
-export default function StepUsernameBody({ defaultValue, setUserName }) {
-  function handleChange(e) {
+interface Props extends React.HTMLAttributes<HTMLInputElement> {
+  setUserName: Dispatch<string>;
+}
+
+export default function StepUsernameBody({ defaultValue, setUserName }: Props) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setUserName(e.target.value);
   }
 

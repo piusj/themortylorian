@@ -1,7 +1,12 @@
 import { Box, Heading, Input } from '@chakra-ui/react';
+import React, { Dispatch } from 'react';
 
-export default function StepTitleBody({ defaultValue, setTitle }) {
-  function handleChange(e) {
+interface Props extends React.HTMLAttributes<HTMLInputElement> {
+  setTitle: Dispatch<string>;
+}
+
+export default function StepTitleBody({ defaultValue, setTitle }: Props) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setTitle(e.target.value);
   }
 

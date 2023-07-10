@@ -1,9 +1,9 @@
 import { createYoga } from 'graphql-yoga';
-import { schema } from '@/lib/graphql/schema';
 import { createContext } from '@/lib/graphql/context';
+import { createSchema } from '@/lib/graphql/schema';
 
 const { handleRequest } = createYoga({
-  schema,
+  schema: createSchema(),
 
   context: createContext,
 

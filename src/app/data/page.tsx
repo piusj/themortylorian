@@ -1,31 +1,23 @@
 'use client';
 
 import { Box } from '@chakra-ui/react';
-import GetData from '@/lib/graphql/queries/GetData.graphql';
-import withQuery from '@/wrappers/withQuery';
-import { GetDataQuery } from '@/types/graphql';
-import { getServerSession } from 'next-auth';
-import { makeClient } from '@/lib/graphql/client';
+import GraphQLError from '@/components/GraphQLError';
+import { useGetDataQuery } from '@/types/graphql';
 
-interface Props {
-  data: GetDataQuery;
-}
+export default function Data() {
+  const { loading, error, data } = useGetDataQuery();
 
-function Data({ data }: Props) {
-  const {
-    characters: { info, results },
-  }: GetDataQuery = data;
+  if (loading) return <p>Loading...</p>;
+  // todo: Consider throwing an error and handle using ErrorBoundaries
+  if (error) return <GraphQLError error={error} />;
 
-  console.log({ data });
+  const results = data?.characters?.results;
+  if (!results) return null;
 
   // Process and display the private data
   return (
     <Box>
-      {results.map(({ name, id }) => (
-        <pre key={id}>{name}</pre>
-      ))}
+      {results.map((character) => character && <pre key={character.id}>{character.name}</pre>)}
     </Box>
   );
 }
-
-export default withQuery(GetData)(Data);

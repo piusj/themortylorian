@@ -19,10 +19,13 @@ query GetData {
     id
     name
     email
+    username
+    title
   }
   highscores {
     score
     user {
+      id
       name
       email
       username

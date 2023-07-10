@@ -1,8 +1,9 @@
 import { Box, Center, Heading } from '@chakra-ui/react';
+import React from 'react';
 import { useCurrentUser } from '@/hooks/session';
 
 export default function HelloUser() {
-  const [user] = useCurrentUser();
+  const { user } = useCurrentUser();
 
   if (user)
     return (
@@ -24,7 +25,7 @@ export default function HelloUser() {
           </Box>
         )}
         <Box mt={5}>
-          <Heading textAlign="center">Click 'Start' if you want to</Heading>
+          <Heading textAlign="center">Click &lsquo;Start&rsquo; if you want to</Heading>
         </Box>
       </Container>
     );
@@ -32,7 +33,7 @@ export default function HelloUser() {
   return null;
 }
 
-const Container = ({ children }) => (
+const Container = ({ children }: { children: React.ReactNode }) => (
   <Center p={5} justifyContent="space-between" alignItems="center" flexDirection="column">
     {children}
   </Center>
