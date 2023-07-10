@@ -1,8 +1,8 @@
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import prisma, { PrismaClient } from '@/lib/prisma';
-import { getUserByEmail } from '@/domain/getUserByEmail';
+import { prisma, PrismaClient } from '@/lib/prisma';
+import { getUserByEmail } from '@/lib/prisma/user';
 import { Session } from '@/types/overrides';
 
 // For advanced auth handling see:

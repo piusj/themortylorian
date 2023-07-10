@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-import * as Prisma from '@prisma/client';
+import { PrismaClient, Highscore, User } from '@prisma/client';
 
 // PrismaClient is attached to the `global` object in development to prevent
 // exhausting your database connection limit.
@@ -9,13 +8,8 @@ import * as Prisma from '@prisma/client';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-export const prisma = globalForPrisma.prisma || new PrismaClient();
+const prisma = globalForPrisma.prisma || new PrismaClient();
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
-export default prisma;
-
-type Highscore = Prisma.Highscore;
-type User = Prisma.User;
-
-export { PrismaClient, Highscore, User };
+export { prisma, PrismaClient, Highscore, User };

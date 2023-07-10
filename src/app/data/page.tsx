@@ -2,7 +2,7 @@
 
 import { Box } from '@chakra-ui/react';
 import GetData from '@/lib/graphql/queries/GetData.graphql';
-import QueryWrapper from '@/lib/wrappers/QueryWrapper';
+import withQuery from '@/wrappers/withQuery';
 import { GetDataQuery } from '@/types/graphql';
 import { getServerSession } from 'next-auth';
 import { makeClient } from '@/lib/graphql/client';
@@ -28,4 +28,4 @@ function Data({ data }: Props) {
   );
 }
 
-export default QueryWrapper(GetData)(Data);
+export default withQuery(GetData)(Data);

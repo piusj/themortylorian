@@ -41,7 +41,8 @@ export default function WelcomeModal() {
   const [step, setStep] = useState(defaultStep);
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: defaultStep !== Steps.DONE });
   const [loading, setLoading] = useState(false);
-  const [saveUser, { data, status }] = useMutation(PutUser);
+  // todo: Consider wrapping mutations in hook with error handling
+  const [saveUser] = useMutation(PutUser);
 
   async function handleSaveUser(variables) {
     setLoading(true);

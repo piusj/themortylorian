@@ -3,9 +3,9 @@
 import React from 'react';
 import { CacheProvider } from '@chakra-ui/next-js';
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../theme';
+import theme from '../lib/theme';
 import { SessionProvider } from 'next-auth/react';
-import { ApolloProviderWrapper } from '@/lib/wrappers/ApolloProviderWrapper';
+import { ApolloProviderWrapper } from '@/wrappers/ApolloProviderWrapper';
 import { Session } from '@/types/overrides';
 
 export interface ProviderProps {
