@@ -140,6 +140,17 @@ export type Locations = {
   results?: Maybe<Array<Maybe<Location>>>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  putUser?: Maybe<User>;
+};
+
+
+export type MutationPutUserArgs = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** Get a specific character by ID */
@@ -228,8 +239,17 @@ export type GetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetDataQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null } | null, results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null } | null> | null } | null, me: { __typename?: 'User', username?: string | null, title?: string | null, highscores: Array<{ __typename?: 'Highscore', score: number } | null> }, users: Array<{ __typename?: 'User', id: string, name: string, email: string } | null>, highscores: Array<{ __typename?: 'Highscore', score: number, user: { __typename?: 'User', name: string, email: string, username?: string | null, title?: string | null } } | null> };
 
+export type PutUserMutationVariables = Exact<{
+  username?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type PutUserMutation = { __typename?: 'Mutation', putUser?: { __typename?: 'User', username?: string | null, title?: string | null } | null };
+
 
 export const GetDataDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetData"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"characters"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"page"},"value":{"kind":"IntValue","value":"1"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"info"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"count"}}]}},{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"highscores"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}},{"kind":"Field","name":{"kind":"Name","value":"highscores"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"score"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}}]} as unknown as DocumentNode<GetDataQuery, GetDataQueryVariables>;
+export const PutUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"PutUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"title"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"putUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"Argument","name":{"kind":"Name","value":"title"},"value":{"kind":"Variable","name":{"kind":"Name","value":"title"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<PutUserMutation, PutUserMutationVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -363,6 +383,17 @@ export type Locations = {
   results?: Maybe<Array<Maybe<Location>>>;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  putUser?: Maybe<User>;
+};
+
+
+export type MutationPutUserArgs = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** Get a specific character by ID */
@@ -450,3 +481,11 @@ export type GetDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetDataQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null } | null, results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null } | null> | null } | null, me: { __typename?: 'User', username?: string | null, title?: string | null, highscores: Array<{ __typename?: 'Highscore', score: number } | null> }, users: Array<{ __typename?: 'User', id: string, name: string, email: string } | null>, highscores: Array<{ __typename?: 'Highscore', score: number, user: { __typename?: 'User', name: string, email: string, username?: string | null, title?: string | null } } | null> };
+
+export type PutUserMutationVariables = Exact<{
+  username?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type PutUserMutation = { __typename?: 'Mutation', putUser?: { __typename?: 'User', username?: string | null, title?: string | null } | null };

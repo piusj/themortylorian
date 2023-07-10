@@ -2,6 +2,8 @@ import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma, { PrismaClient } from '@/lib/prisma';
+import { getUserByEmail } from '@/domain/getUserByEmail';
+import { Session } from '@/types/overrides';
 
 // For advanced auth handling see:
 // https://next-auth.js.org/configuration/initialization#route-handlers-app
@@ -38,14 +40,15 @@ const authOptions: NextAuthOptions = {
     // for increased security. If you want to make something available you added to the token (like access_token and
     // user.id from above) via the jwt() callback, you have to explicitly forward it here to make it available to the
     // client.
-    async session({ session, token, user }) {
+    async session({ session, token }): Session {
       // Send properties to the client, like an access_token and user id from a provider.
       session.accessToken = token.accessToken;
+      session.user = await getUserByEmail(prisma, session.user.email);
 
       return session;
     },
 
-    // This callback is called whenever a JSON Web Token is created (i.e. at sign in) or updated (i.e whenever a
+    // This callback is called whenever a JSON Web Token is created (i.e. at sign in) or updated (i.e. whenever a
     // session is accessed in the client). The returned value will be encrypted, and it is stored in a cookie.
     async jwt({ token, account, profile }) {
       // Persist the OAuth access_token and or the user id to the token right after signin

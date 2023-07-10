@@ -5,8 +5,8 @@ import { CacheProvider } from '@chakra-ui/next-js';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../theme';
 import { SessionProvider } from 'next-auth/react';
-import { Session } from 'next-auth';
-import { ApolloProviderWrapper } from '@/lib/Wrappers/ApolloProviderWrapper';
+import { ApolloProviderWrapper } from '@/lib/wrappers/ApolloProviderWrapper';
+import { Session } from '@/types/overrides';
 
 export interface ProviderProps {
   children: React.ReactNode;

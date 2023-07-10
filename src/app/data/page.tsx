@@ -1,8 +1,8 @@
 'use client';
 
 import { Box } from '@chakra-ui/react';
-import Characters from '../../lib/graphql/queries/GetData.graphql';
-import QueryWrapper from '@/lib/Wrappers/QueryWrapper';
+import GetData from '@/lib/graphql/queries/GetData.graphql';
+import QueryWrapper from '@/lib/wrappers/QueryWrapper';
 import { GetDataQuery } from '@/types/graphql';
 import { getServerSession } from 'next-auth';
 import { makeClient } from '@/lib/graphql/client';
@@ -28,4 +28,4 @@ function Data({ data }: Props) {
   );
 }
 
-export default QueryWrapper(Characters)(Data);
+export default QueryWrapper(GetData)(Data);

@@ -2,14 +2,14 @@ import { Box, Center, Heading } from '@chakra-ui/react';
 import { useCurrentUser } from '@/hooks/session';
 
 export default function HelloUser() {
-  const user = useCurrentUser();
+  const [user] = useCurrentUser();
 
   if (user)
     return (
       <Container>
         <Box>
           <Heading>
-            Well Hee<i>*buuurrp*</i>llooo, {user.name}!
+            Well Hee<i>*buuurrp*</i>llooo, {user.username}!
           </Heading>
         </Box>
         {user.title && (

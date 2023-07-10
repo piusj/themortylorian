@@ -12,3 +12,14 @@ export async function getUserByEmail(
 export async function getUsers(prisma: PrismaClient): Promise<User> {
   return await prisma.user.findMany();
 }
+
+export async function putUser(prisma: PrismaClient, user: User): Promise<User> {
+  return await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      ...user,
+    },
+  });
+}

@@ -3,7 +3,7 @@ import { signIn, signOut } from 'next-auth/react';
 import { useCurrentUser } from '@/hooks/session';
 
 export default function Header() {
-  const user = useCurrentUser();
+  const [user] = useCurrentUser();
 
   if (user)
     return (

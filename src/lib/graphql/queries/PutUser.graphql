@@ -1,0 +1,7 @@
+
+mutation PutUser($username: String, $title: String) {
+    putUser(username: $username, title: $title) {
+        username
+        title
+    }
+}
