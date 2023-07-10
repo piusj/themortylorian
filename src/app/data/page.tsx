@@ -1,29 +1,31 @@
 'use client';
 
-import { useQuery } from '@apollo/client';
-import { Character } from 'rickmortyapi';
 import { Box } from '@chakra-ui/react';
-import Characters from '../../lib/graphql/queries/GetCharacters.graphql';
-import GraphQLError from '@/components/GraphQLError';
+import Characters from '../../lib/graphql/queries/GetData.graphql';
+import QueryWrapper from '@/lib/Wrappers/QueryWrapper';
+import { GetDataQuery } from '@/types/graphql';
+import { getServerSession } from 'next-auth';
+import { makeClient } from '@/lib/graphql/client';
 
-export default function Data() {
-  const { loading, error, data } = useQuery(Characters);
+interface Props {
+  data: GetDataQuery;
+}
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <GraphQLError error={error} />;
-
+function Data({ data }: Props) {
   const {
     characters: { info, results },
-  } = data;
+  }: GetDataQuery = data;
 
   console.log({ data });
 
   // Process and display the private data
   return (
     <Box>
-      {results.map(({ name, id }: Character) => (
+      {results.map(({ name, id }) => (
         <pre key={id}>{name}</pre>
       ))}
     </Box>
   );
 }
+
+export default QueryWrapper(Characters)(Data);

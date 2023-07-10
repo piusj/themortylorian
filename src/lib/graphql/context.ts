@@ -1,9 +1,6 @@
-import { User } from 'next-auth';
 import { throwNotAuthenticatedError } from '@/lib/exceptions/graphqlErrors';
-import { PrismaClient } from '@prisma/client';
 import { authenticateUser } from '@/domain/authentication';
-
-const prisma = new PrismaClient();
+import prisma, { PrismaClient, User } from '@/lib/prisma';
 
 export type GraphQLContext = {
   prisma: PrismaClient;
@@ -21,7 +18,7 @@ export const createContext = async ({ request }) => {
 
   if (request.headers.get('Authorization') === process.env.GRAPHQL_INTROSPECTION_SECRET)
     return {
-      prisma
+      prisma,
     };
 
   throwNotAuthenticatedError();

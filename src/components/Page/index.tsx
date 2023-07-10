@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import Header from '@/components/Header';
 
 export default function Page({ children, ...props }) {

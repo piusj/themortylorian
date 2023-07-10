@@ -1,9 +1,10 @@
 'use client';
 
-import {Box, Button, Link, Center, useColorModeValue} from '@chakra-ui/react';
+import { Box, Button, Center, useColorModeValue } from '@chakra-ui/react';
 import Page from '@/components/Page';
 import { useLinkCallback } from '@/hooks/routes';
 import HelloUser from '@/components/HelloUser';
+import WelcomeModal from '@/components/WelcomeModal';
 
 export default function Home() {
   const goToData = useLinkCallback('/data');
@@ -18,6 +19,7 @@ export default function Home() {
           <Button onClick={goToData}>Start</Button>
         </Box>
       </Center>
+      <WelcomeModal />
     </Page>
   );
 }

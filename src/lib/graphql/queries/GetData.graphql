@@ -1,4 +1,4 @@
-query Characters {
+query GetData {
   characters(page: 1) {
     info {
       count
@@ -9,6 +9,8 @@ query Characters {
     }
   }
   me {
+    username
+    title
     highscores {
       score
     }
@@ -23,6 +25,8 @@ query Characters {
     user {
       name
       email
+      username
+      title
     }
   }
 }

@@ -1,11 +1,14 @@
 import React, { useMemo } from 'react';
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { Session } from 'next-auth';
+import { Session } from '@/types/overrides';
+import { makeClient } from '@/lib/graphql/client';
+
+const GRAPHQL_URL = `${process.env.NEXT_PUBLIC_BASE_URL}${process.env.NEXT_PUBLIC_GRAPHQL_PATH}`;
 
 const httpLink = createHttpLink({
-  uri: `${process.env.NEXT_PUBLIC_BASE_URL}${process.env.NEXT_PUBLIC_GRAPHQL_PATH}`,
-  credentials: "include",
+  uri: GRAPHQL_URL,
+  credentials: 'include',
 });
 
 interface Props {
@@ -17,17 +20,7 @@ export const ApolloProviderWrapper = ({ session, children }: Props) => {
   const token = session?.accessToken;
 
   const client = useMemo(() => {
-    const authMiddleware = setContext((operation, { headers }) => ({
-      headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token}` : undefined,
-      },
-    }));
-
-    return new ApolloClient({
-      link: from([authMiddleware, httpLink]),
-      cache: new InMemoryCache(),
-    });
+    return makeClient(token);
   }, [token]);
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;

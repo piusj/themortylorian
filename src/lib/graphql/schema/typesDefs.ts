@@ -9,6 +9,8 @@ export default /* GraphQL */ `
     id: String!
     name: String!
     email: String!
+    username: String
+    title: String
     highscores: [Highscore]!
   }
     

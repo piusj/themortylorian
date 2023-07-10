@@ -1,14 +1,12 @@
-import { AuthOptions } from 'next-auth';
+import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import prisma, { PrismaClient } from '@/lib/prisma';
 
 // For advanced auth handling see:
 // https://next-auth.js.org/configuration/initialization#route-handlers-app
 
-const authOptions: AuthOptions = {
+const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -24,15 +22,7 @@ const authOptions: AuthOptions = {
   callbacks: {
     // Use the signIn() callback to control if a user is allowed to sign in.
     async signIn({ user, account, profile, email, credentials }) {
-      const isAllowedToSignIn = true;
-      if (isAllowedToSignIn) {
-        return true;
-      } else {
-        // Return false to display a default error message
-        return false;
-        // Or you can return a URL to redirect to:
-        // return '/unauthorized'
-      }
+      return true;
     },
 
     // The redirect callback is called anytime the user is redirected to a callback URL (e.g. on signin or signout).
@@ -65,5 +55,6 @@ const authOptions: AuthOptions = {
       return token;
     },
   },
-}
+};
+
 export default authOptions;

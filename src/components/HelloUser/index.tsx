@@ -1,10 +1,8 @@
-import { Box, Button, Center, Flex, Heading, useColorModeValue } from '@chakra-ui/react';
-import { signIn, signOut } from 'next-auth/react';
+import { Box, Center, Heading } from '@chakra-ui/react';
 import { useCurrentUser } from '@/hooks/session';
 
 export default function HelloUser() {
   const user = useCurrentUser();
-  user.title = "Space monger"
 
   if (user)
     return (
@@ -26,9 +24,7 @@ export default function HelloUser() {
           </Box>
         )}
         <Box mt={5}>
-          <Heading textAlign="center">
-            Click 'Start' if you want to
-          </Heading>
+          <Heading textAlign="center">Click 'Start' if you want to</Heading>
         </Box>
       </Container>
     );
@@ -37,12 +33,7 @@ export default function HelloUser() {
 }
 
 const Container = ({ children }) => (
-  <Center
-    p={5}
-    justifyContent="space-between"
-    alignItems="center"
-    flexDirection="column"
-  >
+  <Center p={5} justifyContent="space-between" alignItems="center" flexDirection="column">
     {children}
   </Center>
 );

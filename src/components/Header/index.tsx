@@ -1,7 +1,6 @@
 import { Avatar, Box, Button, Flex, useColorModeValue } from '@chakra-ui/react';
 import { signIn, signOut } from 'next-auth/react';
 import { useCurrentUser } from '@/hooks/session';
-import type * as Prisma from '@prisma/client';
 
 export default function Header() {
   const user = useCurrentUser();
@@ -38,7 +37,7 @@ const Container = ({ children }) => (
   </Flex>
 );
 
-const Profile = ({ user }: { user: Prisma.User }) => (
+const Profile = ({ user }) => (
   <Flex alignItems="center" gap={2}>
     <Avatar name={user.name} src={user.image} />
   </Flex>
