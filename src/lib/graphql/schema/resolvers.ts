@@ -1,17 +1,17 @@
 import { GraphQLContext } from '@/lib/graphql/context';
+import { recordGameResult } from '@/lib/prisma/game';
 import { getHighScores } from '@/lib/prisma/highscores';
 import { getMe, getUsers, updateUser } from '@/lib/prisma/user';
-import { PutUserMutationVariables } from '@/types/graphql';
+import { PutGameResultMutationVariables, PutUserMutationVariables } from '@/types/graphql';
 
 type QueryResolver = (context: GraphQLContext) => any;
-type MutationResolver = (variables: any, context: GraphQLContext) => any;
+type MutationResolver = (variables: never, context: GraphQLContext) => any;
 
-const queryResolver =
-  (resolver: QueryResolver) => (_: undefined, __: {}, context: GraphQLContext) =>
-    resolver(context);
+const queryResolver = (resolver: QueryResolver) => (_: never, __: never, context: GraphQLContext) =>
+  resolver(context);
 
 const mutationResolver =
-  (resolver: MutationResolver) => (_: undefined, variables: any, context: GraphQLContext) =>
+  (resolver: MutationResolver) => (_: never, variables: never, context: GraphQLContext) =>
     resolver(variables, context);
 
 export default {
@@ -41,5 +41,13 @@ export default {
         ...variables,
       });
     }),
+    putGameResult: mutationResolver(
+      (variables: PutGameResultMutationVariables, context: GraphQLContext) => {
+        const { prisma, user } = context;
+        const { isCorrect } = variables;
+
+        return recordGameResult(prisma, user.id, isCorrect);
+      },
+    ),
   },
 };

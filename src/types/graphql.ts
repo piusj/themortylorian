@@ -142,7 +142,13 @@ export type Locations = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  putGameResult: User;
   putUser: User;
+};
+
+
+export type MutationPutGameResultArgs = {
+  isCorrect: Scalars['Boolean']['input'];
 };
 
 
@@ -226,6 +232,7 @@ export type QueryLocationsByIdsArgs = {
 
 export type User = {
   __typename?: 'User';
+  currentStreak: Scalars['Int']['output'];
   email: Scalars['String']['output'];
   highscores: Array<Maybe<Highscore>>;
   id: Scalars['String']['output'];
@@ -234,10 +241,19 @@ export type User = {
   username?: Maybe<Scalars['String']['output']>;
 };
 
-export type GetDataQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetDataQueryVariables = Exact<{
+  ids: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+}>;
 
 
-export type GetDataQuery = { __typename?: 'Query', characters?: { __typename?: 'Characters', info?: { __typename?: 'Info', count?: number | null } | null, results?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null } | null> | null } | null, me: { __typename?: 'User', username?: string | null, title?: string | null, highscores: Array<{ __typename?: 'Highscore', score: number } | null> }, users: Array<{ __typename?: 'User', id: string, name: string, email: string, username?: string | null, title?: string | null } | null>, highscores: Array<{ __typename?: 'Highscore', score: number, user: { __typename?: 'User', id: string, name: string, email: string, username?: string | null, title?: string | null } } | null> };
+export type GetDataQuery = { __typename?: 'Query', charactersByIds?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null, species?: string | null, type?: string | null, gender?: string | null, created?: string | null, image?: string | null, episode: Array<{ __typename?: 'Episode', name?: string | null } | null> } | null> | null };
+
+export type PutGameResultMutationVariables = Exact<{
+  isCorrect: Scalars['Boolean']['input'];
+}>;
+
+
+export type PutGameResultMutation = { __typename?: 'Mutation', putGameResult: { __typename?: 'User', username?: string | null, title?: string | null } };
 
 export type PutUserMutationVariables = Exact<{
   username?: InputMaybe<Scalars['String']['input']>;
@@ -249,38 +265,17 @@ export type PutUserMutation = { __typename?: 'Mutation', putUser: { __typename?:
 
 
 export const GetDataDocument = gql`
-    query GetData {
-  characters(page: 1) {
-    info {
-      count
-    }
-    results {
-      id
-      name
-    }
-  }
-  me {
-    username
-    title
-    highscores {
-      score
-    }
-  }
-  users {
+    query GetData($ids: [ID!]!) {
+  charactersByIds(ids: $ids) {
     id
     name
-    email
-    username
-    title
-  }
-  highscores {
-    score
-    user {
-      id
+    species
+    type
+    gender
+    created
+    image
+    episode {
       name
-      email
-      username
-      title
     }
   }
 }
@@ -298,10 +293,11 @@ export const GetDataDocument = gql`
  * @example
  * const { data, loading, error } = useGetDataQuery({
  *   variables: {
+ *      ids: // value for 'ids'
  *   },
  * });
  */
-export function useGetDataQuery(baseOptions?: Apollo.QueryHookOptions<GetDataQuery, GetDataQueryVariables>) {
+export function useGetDataQuery(baseOptions: Apollo.QueryHookOptions<GetDataQuery, GetDataQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetDataQuery, GetDataQueryVariables>(GetDataDocument, options);
       }
@@ -312,6 +308,40 @@ export function useGetDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetDataQueryHookResult = ReturnType<typeof useGetDataQuery>;
 export type GetDataLazyQueryHookResult = ReturnType<typeof useGetDataLazyQuery>;
 export type GetDataQueryResult = Apollo.QueryResult<GetDataQuery, GetDataQueryVariables>;
+export const PutGameResultDocument = gql`
+    mutation PutGameResult($isCorrect: Boolean!) {
+  putGameResult(isCorrect: $isCorrect) {
+    username
+    title
+  }
+}
+    `;
+export type PutGameResultMutationFn = Apollo.MutationFunction<PutGameResultMutation, PutGameResultMutationVariables>;
+
+/**
+ * __usePutGameResultMutation__
+ *
+ * To run a mutation, you first call `usePutGameResultMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePutGameResultMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [putGameResultMutation, { data, loading, error }] = usePutGameResultMutation({
+ *   variables: {
+ *      isCorrect: // value for 'isCorrect'
+ *   },
+ * });
+ */
+export function usePutGameResultMutation(baseOptions?: Apollo.MutationHookOptions<PutGameResultMutation, PutGameResultMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PutGameResultMutation, PutGameResultMutationVariables>(PutGameResultDocument, options);
+      }
+export type PutGameResultMutationHookResult = ReturnType<typeof usePutGameResultMutation>;
+export type PutGameResultMutationResult = Apollo.MutationResult<PutGameResultMutation>;
+export type PutGameResultMutationOptions = Apollo.BaseMutationOptions<PutGameResultMutation, PutGameResultMutationVariables>;
 export const PutUserDocument = gql`
     mutation PutUser($username: String, $title: String) {
   putUser(username: $username, title: $title) {

@@ -1,8 +1,5 @@
-// This is your Prisma index file,
-// learn more about it in the docs: https://pris.ly/d/index-index
-
 generator client {
-  provider = "index-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -13,18 +10,17 @@ datasource db {
 model Account {
   id                String  @id @default(cuid())
   userId            String
-  type              String
-  provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  access_token      String?
   expires_at        Int?
-  token_type        String?
+  id_token          String?
+  provider          String
+  refresh_token     String?
   scope             String?
-  id_token          String? @db.Text
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token_type        String?
+  type              String
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -34,8 +30,9 @@ model User {
   name          String?
   email         String?     @unique
   image         String?
-  username      String?     @unique
   title         String?
+  username      String?     @unique
+  currentStreak Int         @default(0)
   accounts      Account[]
   highscores    Highscore[]
 }
@@ -44,6 +41,5 @@ model Highscore {
   id     String @id @default(cuid())
   userId String
   score  Int
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

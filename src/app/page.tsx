@@ -7,7 +7,7 @@ import WelcomeModal from '@/components/WelcomeModal';
 import { useLinkCallback } from '@/hooks/routes';
 
 export default function Home() {
-  const goToData = useLinkCallback('/data');
+  const goToGame = useLinkCallback('/game');
 
   return (
     <Page bg={useColorModeValue('blue.100', 'blue.900')}>
@@ -16,7 +16,7 @@ export default function Home() {
           <HelloUser />
         </Box>
         <Box my={4}>
-          <Button onClick={goToData}>Start</Button>
+          <Button onClick={goToGame}>Start</Button>
         </Box>
       </Center>
       <WelcomeModal />

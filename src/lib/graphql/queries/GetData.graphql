@@ -1,35 +1,14 @@
-query GetData {
-  characters(page: 1) {
-    info {
-      count
-    }
-    results {
-      id
-      name
-    }
-  }
-  me {
-    username
-    title
-    highscores {
-      score
-    }
-  }
-  users {
+query GetData($ids: [ID!]!) {
+  charactersByIds(ids: $ids) {
     id
     name
-    email
-    username
-    title
-  }
-  highscores {
-    score
-    user {
-      id
+    species
+    type
+    gender
+    created
+    image
+    episode {
       name
-      email
-      username
-      title
     }
   }
 }

@@ -1,4 +1,4 @@
-import { GetResult } from '@prisma/client/runtime';
+import { Maybe } from 'graphql-yoga';
 import { DefaultSession } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import { Prisma } from '@/lib/prisma';
@@ -9,6 +9,6 @@ declare module 'next-auth' {
    */
   interface Session extends DefaultSession {
     accessToken: JWT<string>;
-    user: GetResult<Prisma.User>;
+    user: Maybe<Prisma.User>;
   }
 }

@@ -1,0 +1,6 @@
+mutation PutGameResult($isCorrect: Boolean!) {
+    putGameResult(isCorrect: $isCorrect) {
+        username
+        title
+    }
+}

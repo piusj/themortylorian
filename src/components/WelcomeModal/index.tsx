@@ -14,7 +14,7 @@ import StepTitleBody from '@/components/WelcomeModal/StepTitleBody';
 import StepUsernameBody from '@/components/WelcomeModal/StepUsernameBody';
 import { useCurrentUser } from '@/hooks/session';
 import { Prisma } from '@/lib/prisma';
-import { MutationPutUserArgs, usePutUserMutation } from '@/types/graphql';
+import { Maybe, MutationPutUserArgs, usePutUserMutation } from '@/types/graphql';
 
 enum Steps {
   USERNAME = 1,
@@ -22,8 +22,8 @@ enum Steps {
   DONE = 3,
 }
 
-const getDefaultStep = (user?: Prisma.User) => {
-  return Steps.USERNAME;
+const getDefaultStep = (user?: Maybe<Prisma.User>) => {
+  // return Steps.USERNAME;
 
   if (!user?.username) return Steps.USERNAME;
   if (!user?.title) return Steps.TITLE;
@@ -32,8 +32,8 @@ const getDefaultStep = (user?: Prisma.User) => {
 
 export default function WelcomeModal() {
   const { user, updateUser } = useCurrentUser();
-  const [username, setUserName] = useState(user?.username);
-  const [title, setTitle] = useState(user?.title);
+  const [username, setUserName] = useState(user?.username || undefined);
+  const [title, setTitle] = useState(user?.title || undefined);
   const [step, setStep] = useState(getDefaultStep(user));
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: step !== Steps.DONE });
   const [loading, setLoading] = useState(false);

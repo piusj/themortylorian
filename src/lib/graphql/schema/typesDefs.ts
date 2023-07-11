@@ -11,6 +11,7 @@ export default /* GraphQL */ `
     email: String!
     username: String
     title: String
+    currentStreak: Int!
     highscores: [Highscore]!
   }
 
@@ -22,5 +23,6 @@ export default /* GraphQL */ `
 
   type Mutation {
     putUser(username: String, title: String): User!
+    putGameResult(isCorrect: Boolean!): User!
   }
 `;

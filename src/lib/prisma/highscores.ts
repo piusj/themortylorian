@@ -1,5 +1,5 @@
-import { PrismaClient } from '@/lib/prisma/index';
+import { PrismaClient } from './index';
 
-export async function getHighScores(prisma: PrismaClient) {
-  return await prisma.highscore.findMany();
+export function getHighScores(prisma: PrismaClient) {
+  return prisma.highscore.findMany();
 }
