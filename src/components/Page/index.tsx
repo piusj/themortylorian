@@ -6,15 +6,11 @@ import Header from '@/components/Header';
 
 export default function Page({ children, ...props }: { children: React.ReactNode } & BoxProps) {
   return (
-    <Box bg="blue.100" {...props} position="relative">
+    <Box bg="blue.100" {...props} position="relative" size="full">
       <Header />
-      <PageBody>{children}</PageBody>
+      <Box p={10} minHeight="calc(100vh - 80px)">
+        {children}
+      </Box>
     </Box>
   );
 }
-
-const PageBody = ({ children }: { children: React.ReactNode }) => (
-  <Box p={10} h="calc(100vh - 80px)">
-    {children}
-  </Box>
-);

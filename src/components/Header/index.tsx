@@ -6,6 +6,7 @@ import {
   Center,
   Flex,
   Link,
+  Text,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { User } from '@prisma/client';
@@ -65,5 +66,6 @@ const Container = ({ children }: { children: React.ReactNode }) => (
 const Profile = ({ user }: { user: User }) => (
   <Flex alignItems="center" gap={2}>
     <Avatar name={user.name || undefined} src={user.image || undefined} />
+    {user.username && <Text fontWeight={600}>{user.username}</Text>}
   </Flex>
 );

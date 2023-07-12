@@ -1,5 +1,10 @@
 import {
+  AbsoluteCenter,
+  Box,
   Button,
+  Center,
+  Heading,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -9,10 +14,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { User } from '@prisma/client';
-import { useState } from 'react';
-import StepDoneBody from '@/components/WelcomeModal/StepDoneBody';
-import StepTitleBody from '@/components/WelcomeModal/StepTitleBody';
-import StepUsernameBody from '@/components/WelcomeModal/StepUsernameBody';
+import React, { useState } from 'react';
 import { useCurrentUser } from '@/hooks/session';
 import { Maybe, MutationPutUserArgs, usePutUserMutation } from '@/types/graphql';
 
@@ -23,8 +25,6 @@ enum Steps {
 }
 
 const getDefaultStep = (user?: Maybe<User>) => {
-  // return Steps.USERNAME;
-
   if (!user?.username) return Steps.USERNAME;
   if (!user?.title) return Steps.TITLE;
   return Steps.DONE;
@@ -37,7 +37,6 @@ export default function WelcomeModal() {
   const [step, setStep] = useState(getDefaultStep(user));
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: step !== Steps.DONE });
   const [loading, setLoading] = useState(false);
-  // todo: Consider wrapping mutations in hook with error handling
   const [saveUser] = usePutUserMutation();
 
   if (!user) return null;
@@ -68,17 +67,44 @@ export default function WelcomeModal() {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={() => null}>
+    <Modal size="full" isOpen={isOpen} closeOnOverlayClick={false} onClose={() => null}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
-
+        <ModalHeader>
+          <Center>
+            <Heading>Season 15: Episode 1 - The Mortylorian</Heading>
+          </Center>
+        </ModalHeader>
         <ModalBody>
-          {step === Steps.USERNAME && (
-            <StepUsernameBody defaultValue={username} setUserName={setUserName} />
-          )}
-          {step === Steps.TITLE && <StepTitleBody defaultValue={title} setTitle={setTitle} />}
-          {step === Steps.DONE && <StepDoneBody />}
+          <AbsoluteCenter>
+            <Box>
+              <Heading size="md">
+                {step === Steps.USERNAME && `State your username`}
+                {step === Steps.TITLE && 'State your space name/title'}
+                {step === Steps.DONE && `Welcome ${username}, a.k.a. ${title}`}
+              </Heading>
+            </Box>
+            <Box mt={4}>
+              {step === Steps.USERNAME && (
+                <Input
+                  size="lg"
+                  type="text"
+                  placeholder="xx_space_beth_xx"
+                  defaultValue={username}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              )}
+              {step === Steps.TITLE && (
+                <Input
+                  size="lg"
+                  type="text"
+                  placeholder="Space Monger"
+                  defaultValue={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              )}
+            </Box>
+          </AbsoluteCenter>
         </ModalBody>
 
         <ModalFooter>

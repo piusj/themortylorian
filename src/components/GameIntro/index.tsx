@@ -1,15 +1,19 @@
 'use client';
 
-import { Box, Center, Text } from '@chakra-ui/react';
+import { Box, Center, Heading, Text } from '@chakra-ui/react';
 import { User } from '@prisma/client';
+import React from 'react';
 import { Maybe } from '@/types/graphql';
 
 export default function GameIntro({ user }: { user: Maybe<User> }) {
   if (!user) return null;
 
   return (
-    <Center>
-      <Box>
+    <Box>
+      <Center p={5}>
+        {user.username && <Heading size="md">Hello {user.title || user.username}</Heading>}
+      </Center>
+      <Center p={5}>
         <Text fontSize="md">
           Rick: Good. You Fiiinally logged in. Okay, here&apos;s the deal... MoooOOoorty is bailing
           on me because he wants to go to college. Not because he wants to learn anything, but
@@ -42,9 +46,9 @@ export default function GameIntro({ user }: { user: Maybe<User> }) {
           which one is fake, and well, you can get creative.
           <br />
           <br />
-          Rick: Happy hunting
+          Rick: Happy hunting!
         </Text>
-      </Box>
-    </Center>
+      </Center>
+    </Box>
   );
 }

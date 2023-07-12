@@ -16,12 +16,13 @@ import {
 } from '@chakra-ui/react';
 import DataError from '../../components/Errors/DataError';
 import GraphQLError from '../../components/Errors/GraphQLError';
+import Loading from '@/components/Loading';
 import { Highscore, useGetHighscoresQuery } from '@/types/graphql';
 
 export default function Highscores() {
   const { loading, error, data } = useGetHighscoresQuery();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
   if (error) return <GraphQLError error={error} />;
   if (!data?.highscores) return <DataError />;
 
@@ -31,7 +32,7 @@ export default function Highscores() {
     <Center>
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
-          <TableCaption>The best bounty streaks so far</TableCaption>
+          <TableCaption>The best 10 bounty streaks so far</TableCaption>
           <Thead>
             <Tr>
               <Th>Username</Th>

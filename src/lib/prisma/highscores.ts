@@ -7,6 +7,7 @@ export function getHighScores(prisma: PrismaClient) {
         score: 'desc',
       },
     ],
+    take: 10,
     include: { user: true },
   });
 }

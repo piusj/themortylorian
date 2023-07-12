@@ -10,7 +10,7 @@ const ANSWER_CHOICES = 4;
 
 type ScenarioData = {
   characters: Character[];
-  spyId: string;
+  spy: Character;
 };
 
 const generateScenario = (characters: Character[]) => {
@@ -32,17 +32,18 @@ const generateScenario = (characters: Character[]) => {
   const spyIndex = getRandomNumberBetween(0, choices.length - 1);
   // Steal information from victim but preserve id and image
   // The id will be used to identify the spy later
-  const spyId = choices[spyIndex].id as string;
-  const spyImage = choices[spyIndex].image as string;
+  const spy: Character = {
+    ...choices[spyIndex],
+  };
   choices[spyIndex] = {
     ...victim,
-    id: spyId,
-    image: spyImage,
+    id: spy.id as string,
+    image: spy.image as string,
   };
 
   return {
     characters: choices,
-    spyId,
+    spy: spy,
   };
 };
 

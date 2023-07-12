@@ -14,7 +14,7 @@ export async function recordGameResult(prisma: PrismaClient, userId: string, isC
 
   const newScore = user.currentStreak;
   const isNewHighscore =
-    newScore > 0 && user.highscores.every(({ score }: Highscore) => newScore > score);
+    newScore > 0 && !user.highscores.some(({ score }: Highscore) => newScore === score);
 
   const relations = isNewHighscore && {
     highscores: {

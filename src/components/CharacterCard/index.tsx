@@ -11,13 +11,9 @@ export function CharacterCard({ character, chooseCharacter }: Props) {
   const image = character.image as string;
   const id = character.id as string;
 
-  function handleSelectCard() {
-    chooseCharacter(id);
-  }
-
   return (
     <Card
-      onClick={handleSelectCard}
+      onClick={() => chooseCharacter(id)}
       sx={{
         flex: '1 1 0',
         backgroundColor: 'var(--chakra-colors-gray-700)',
