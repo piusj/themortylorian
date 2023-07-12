@@ -8,12 +8,12 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
+import { User } from '@prisma/client';
 import { useState } from 'react';
 import StepDoneBody from '@/components/WelcomeModal/StepDoneBody';
 import StepTitleBody from '@/components/WelcomeModal/StepTitleBody';
 import StepUsernameBody from '@/components/WelcomeModal/StepUsernameBody';
 import { useCurrentUser } from '@/hooks/session';
-import { Prisma } from '@/lib/prisma';
 import { Maybe, MutationPutUserArgs, usePutUserMutation } from '@/types/graphql';
 
 enum Steps {
@@ -22,7 +22,7 @@ enum Steps {
   DONE = 3,
 }
 
-const getDefaultStep = (user?: Maybe<Prisma.User>) => {
+const getDefaultStep = (user?: Maybe<User>) => {
   // return Steps.USERNAME;
 
   if (!user?.username) return Steps.USERNAME;

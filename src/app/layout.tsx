@@ -1,14 +1,15 @@
 import { Inter } from 'next/font/google';
 import { getServerSession } from 'next-auth';
 import React from 'react';
+import Page from '@/components/Page';
 import authOptions from '@/lib/authOptions';
 import { Providers } from '@/wrappers/Providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Leonardo Interview',
-  description: 'Example app for Leonardo interview',
+  title: 'The Mortylorian',
+  description: 'A game: Morty bails, so Rick hires a bounty hunter in his place',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -17,7 +18,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers session={session}>{children}</Providers>
+        <Providers session={session}>
+          <Page>{children}</Page>
+        </Providers>
       </body>
     </html>
   );

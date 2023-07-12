@@ -1,6 +1,8 @@
 mutation PutGameResult($isCorrect: Boolean!) {
     putGameResult(isCorrect: $isCorrect) {
-        username
-        title
+        currentStreak,
+        highscores {
+            score
+        }
     }
 }

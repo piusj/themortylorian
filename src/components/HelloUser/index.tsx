@@ -1,32 +1,18 @@
-import { Box, Center, Heading } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
+import { User } from '@prisma/client';
 import React from 'react';
-import { useCurrentUser } from '@/hooks/session';
+import { Maybe } from '@/types/graphql';
 
-export default function HelloUser() {
-  const { user } = useCurrentUser();
-
+export default function HelloUser({ user }: { user: Maybe<User> }) {
   if (user)
     return (
       <Container>
-        <Box>
-          <Heading>
-            Well Hee<i>*buuurrp*</i>llooo, {user.username}!
-          </Heading>
-        </Box>
-        {user.title && (
-          <Box mt={3}>
-            <Heading textAlign="center">
-              So you think you&apos;re some kind of uhhh {user.title}, huh?
-              <br />
-              What&apos;s so special about a &quot;{user.title}&quot;, anyway?
-              <br />
-              Nevermind, I don&apos;t really care.
-            </Heading>
+        {user.username && (
+          <Box fontWeight={500}>
+            Hello {user.username}
+            {user.title && `, the ${user.title}...`}
           </Box>
         )}
-        <Box mt={5}>
-          <Heading textAlign="center">Click &lsquo;Start&rsquo; if you want to</Heading>
-        </Box>
       </Container>
     );
 

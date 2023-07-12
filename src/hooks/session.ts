@@ -1,13 +1,17 @@
+import { User } from '@prisma/client';
 import { useSession } from 'next-auth/react';
-import { Prisma } from '@/lib/prisma';
+import { Maybe } from '@/types/graphql';
 
-export function useCurrentUser() {
+export function useCurrentUser(): {
+  user: Maybe<User>;
+  updateUser: (userValues: Partial<User>) => void;
+} {
   const { data: session, update } = useSession();
 
-  const user = session?.user;
+  const user = session?.user as Maybe<User>;
 
-  async function updateUser(userValues: Partial<Prisma.User>) {
-    if (!user) return null;
+  async function updateUser(userValues: Partial<User>) {
+    if (!user) return;
 
     await update({
       ...session,

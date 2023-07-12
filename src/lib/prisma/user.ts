@@ -1,6 +1,8 @@
-import { Prisma, PrismaClient } from '@/lib/prisma/index';
+import { Prisma, PrismaClient, User } from '@prisma/client';
+import UserUpdateInput = Prisma.UserUpdateInput;
+import { UserWithHighscores } from '@/types/prisma';
 
-export function getUserById(prisma: PrismaClient, id: string, options?: any) {
+export function getUserById(prisma: PrismaClient, id: string, options?: any): Promise<User | null> {
   return prisma.user.findUnique({
     where: { id },
     ...options,
@@ -17,21 +19,26 @@ export function getUsers(prisma: PrismaClient) {
   return prisma.user.findMany();
 }
 
-export function updateUser(prisma: PrismaClient, user: Prisma.User) {
+export function updateUser(prisma: PrismaClient, id: string, user: UserUpdateInput) {
   return prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      ...user,
-    },
+    where: { id },
+    data: { ...user },
   });
 }
 
-export function getMe(prisma: PrismaClient, loggedInUser: Prisma.User | null) {
+export function getMe(prisma: PrismaClient, loggedInUser: User | null) {
   if (!loggedInUser) return null;
 
-  return getUserById(prisma, loggedInUser.id, {
+  return getUserById(prisma, loggedInUser.id);
+}
+
+export function getUserByIdWithHighscores(
+  prisma: PrismaClient,
+  id: string,
+  options?: any,
+): Promise<UserWithHighscores | null> {
+  return prisma.user.findUnique({
+    where: { id },
     include: { highscores: true },
   });
 }

@@ -1,10 +1,12 @@
+'use client';
+
 import { Box, BoxProps } from '@chakra-ui/react';
 import React from 'react';
 import Header from '@/components/Header';
 
 export default function Page({ children, ...props }: { children: React.ReactNode } & BoxProps) {
   return (
-    <Box {...props}>
+    <Box bg="blue.100" {...props} position="relative">
       <Header />
       <PageBody>{children}</PageBody>
     </Box>

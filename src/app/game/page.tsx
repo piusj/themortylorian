@@ -1,38 +1,56 @@
 'use client';
 
-import { Box } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
+import { useState } from 'react';
 import DataError from '../../components/Errors/DataError';
 import GraphQLError from '../../components/Errors/GraphQLError';
-import { dataQueryVariables, generateScenario } from '@/app/game/engine';
 import { CharacterCard } from '@/components/CharacterCard';
-import { Character, useGetDataQuery, usePutGameResultMutation } from '@/types/graphql';
+import ChosenState from '@/components/ChosenState';
+import { useCurrentUser } from '@/hooks/session';
+import { useGenerateScenario } from '@/hooks/useGenerateScenario';
+import { usePutGameResultMutation } from '@/types/graphql';
 
 export default function Game() {
-  const { loading, error, data } = useGetDataQuery({ variables: dataQueryVariables });
+  const { updateUser } = useCurrentUser();
+  const { loading, error, data } = useGenerateScenario();
   const [saveGameResult] = usePutGameResultMutation();
+  const [hasChosen, setHasChosen] = useState<boolean>(false);
+  const [wasCorrect, setWasCorrect] = useState<boolean>(false);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Center>Loading...</Center>;
   if (error) return <GraphQLError error={error} />;
-  if (!data?.charactersByIds) return <DataError />;
+  if (!data) return <DataError />;
 
-  const characterData = data.charactersByIds as Character[];
-  const [characters, spyId] = generateScenario(characterData);
+  const { characters, spyId } = data;
 
-  async function shootCharacter(id: string) {
+  async function chooseCharacter(id: string) {
     const isCorrect = id === spyId;
-    const variables = { isCorrect };
-    const { data } = await saveGameResult({ variables });
 
-    console.log('saveGameResult', { data });
+    setHasChosen(true);
+    setWasCorrect(isCorrect);
 
-    window.location.reload();
+    const { data } = await saveGameResult({ variables: { isCorrect } });
+
+    if (data?.putGameResult) {
+      await updateUser({
+        currentStreak: data.putGameResult.currentStreak,
+      });
+    }
   }
 
+  if (hasChosen) return <ChosenState correct={wasCorrect} />;
+
   return (
-    <Box>
-      {characters.map((character) => (
-        <CharacterCard key={character.id} character={character} shootCharacter={shootCharacter} />
-      ))}
-    </Box>
+    <Center>
+      <Center gap={4} alignItems="flex-start" flexWrap="wrap">
+        {characters.map((character) => (
+          <CharacterCard
+            key={character.id}
+            character={character}
+            chooseCharacter={chooseCharacter}
+          />
+        ))}
+      </Center>
+    </Center>
   );
 }

@@ -1,12 +1,13 @@
+import { PrismaClient, User } from '@prisma/client';
 import { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { throwNotAuthenticatedError } from '@/lib/exceptions/graphqlErrors';
-import { prisma, PrismaClient, Prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { getUserByEmail } from '@/lib/prisma/user';
 
 export type GraphQLContext = {
   prisma: PrismaClient;
-  user: Prisma.User;
+  user: User;
 };
 
 const SECRET: string = process.env.NEXTAUTH_SECRET as string;

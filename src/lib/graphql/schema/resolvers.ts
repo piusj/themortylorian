@@ -36,8 +36,7 @@ export default {
     putUser: mutationResolver((variables: PutUserMutationVariables, context: GraphQLContext) => {
       const { prisma, user } = context;
 
-      return updateUser(prisma, {
-        ...user,
+      return updateUser(prisma, user.id, {
         ...variables,
       });
     }),

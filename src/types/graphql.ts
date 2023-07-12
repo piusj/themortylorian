@@ -234,8 +234,9 @@ export type User = {
   __typename?: 'User';
   currentStreak: Scalars['Int']['output'];
   email: Scalars['String']['output'];
-  highscores: Array<Maybe<Highscore>>;
+  highscores?: Maybe<Array<Maybe<Highscore>>>;
   id: Scalars['String']['output'];
+  image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   title?: Maybe<Scalars['String']['output']>;
   username?: Maybe<Scalars['String']['output']>;
@@ -248,12 +249,17 @@ export type GetDataQueryVariables = Exact<{
 
 export type GetDataQuery = { __typename?: 'Query', charactersByIds?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null, species?: string | null, type?: string | null, gender?: string | null, created?: string | null, image?: string | null, episode: Array<{ __typename?: 'Episode', name?: string | null } | null> } | null> | null };
 
+export type GetHighscoresQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetHighscoresQuery = { __typename?: 'Query', highscores: Array<{ __typename?: 'Highscore', id: string, score: number, user: { __typename?: 'User', username?: string | null, title?: string | null, image?: string | null } } | null> };
+
 export type PutGameResultMutationVariables = Exact<{
   isCorrect: Scalars['Boolean']['input'];
 }>;
 
 
-export type PutGameResultMutation = { __typename?: 'Mutation', putGameResult: { __typename?: 'User', username?: string | null, title?: string | null } };
+export type PutGameResultMutation = { __typename?: 'Mutation', putGameResult: { __typename?: 'User', currentStreak: number, highscores?: Array<{ __typename?: 'Highscore', score: number } | null> | null } };
 
 export type PutUserMutationVariables = Exact<{
   username?: InputMaybe<Scalars['String']['input']>;
@@ -308,11 +314,53 @@ export function useGetDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetDataQueryHookResult = ReturnType<typeof useGetDataQuery>;
 export type GetDataLazyQueryHookResult = ReturnType<typeof useGetDataLazyQuery>;
 export type GetDataQueryResult = Apollo.QueryResult<GetDataQuery, GetDataQueryVariables>;
+export const GetHighscoresDocument = gql`
+    query GetHighscores {
+  highscores {
+    id
+    score
+    user {
+      username
+      title
+      image
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetHighscoresQuery__
+ *
+ * To run a query within a React component, call `useGetHighscoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetHighscoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetHighscoresQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetHighscoresQuery(baseOptions?: Apollo.QueryHookOptions<GetHighscoresQuery, GetHighscoresQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHighscoresQuery, GetHighscoresQueryVariables>(GetHighscoresDocument, options);
+      }
+export function useGetHighscoresLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHighscoresQuery, GetHighscoresQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHighscoresQuery, GetHighscoresQueryVariables>(GetHighscoresDocument, options);
+        }
+export type GetHighscoresQueryHookResult = ReturnType<typeof useGetHighscoresQuery>;
+export type GetHighscoresLazyQueryHookResult = ReturnType<typeof useGetHighscoresLazyQuery>;
+export type GetHighscoresQueryResult = Apollo.QueryResult<GetHighscoresQuery, GetHighscoresQueryVariables>;
 export const PutGameResultDocument = gql`
     mutation PutGameResult($isCorrect: Boolean!) {
   putGameResult(isCorrect: $isCorrect) {
-    username
-    title
+    currentStreak
+    highscores {
+      score
+    }
   }
 }
     `;

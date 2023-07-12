@@ -1,0 +1,11 @@
+query GetHighscores {
+  highscores{
+    id
+    score
+    user {
+      username
+      title
+      image
+    }
+  }
+}

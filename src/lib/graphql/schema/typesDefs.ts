@@ -12,7 +12,8 @@ export default /* GraphQL */ `
     username: String
     title: String
     currentStreak: Int!
-    highscores: [Highscore]!
+    image: String
+    highscores: [Highscore]
   }
 
   type Query {

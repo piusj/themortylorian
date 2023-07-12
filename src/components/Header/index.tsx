@@ -1,8 +1,17 @@
-import { Avatar, Box, Button, Flex, useColorModeValue } from '@chakra-ui/react';
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Center,
+  Flex,
+  Link,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { User } from '@prisma/client';
 import { signIn, signOut } from 'next-auth/react';
 import React from 'react';
 import { useCurrentUser } from '@/hooks/session';
-import { Prisma } from '@/lib/prisma';
 
 export default function Header() {
   const { user } = useCurrentUser();
@@ -10,10 +19,23 @@ export default function Header() {
   if (user)
     return (
       <Container>
-        <Profile user={user} />
-        <Button colorScheme="blue" onClick={() => signOut()}>
-          Sign out
-        </Button>
+        <Flex gap={8}>
+          <Profile user={user} />
+          <Center gap={4}>
+            <Link href="/">Home</Link>
+            <Link href="/highscores">Highscores</Link>
+          </Center>
+        </Flex>
+        <Flex gap={4}>
+          <Center>
+            <Badge variant="outline" colorScheme="green">
+              Current Streak: {user.currentStreak}
+            </Badge>
+          </Center>
+          <Button flexShrink={0} colorScheme="blue" onClick={() => signOut()}>
+            Sign out
+          </Button>
+        </Flex>
       </Container>
     );
 
@@ -34,12 +56,13 @@ const Container = ({ children }: { children: React.ReactNode }) => (
     alignItems="center"
     bg={useColorModeValue('gray.100', 'gray.900')}
     boxShadow="base"
+    gap={4}
   >
     {children}
   </Flex>
 );
 
-const Profile = ({ user }: { user: Prisma.User }) => (
+const Profile = ({ user }: { user: User }) => (
   <Flex alignItems="center" gap={2}>
     <Avatar name={user.name || undefined} src={user.image || undefined} />
   </Flex>
