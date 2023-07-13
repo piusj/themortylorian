@@ -34,8 +34,7 @@ export function getMe(prisma: PrismaClient, loggedInUser: User | null) {
 
 export function getUserByIdWithHighscores(
   prisma: PrismaClient,
-  id: string,
-  options?: any,
+  id: string
 ): Promise<UserWithHighscores | null> {
   return prisma.user.findUnique({
     where: { id },

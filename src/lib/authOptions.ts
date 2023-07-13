@@ -25,7 +25,8 @@ const authOptions: NextAuthOptions = {
   // Optional configuration options
   callbacks: {
     // Use the signIn() callback to control if a user is allowed to sign in.
-    async signIn({ user, account, profile, email, credentials }) {
+    // params { user, account, profile, email, credentials }
+    async signIn() {
       return true;
     },
 
@@ -42,7 +43,7 @@ const authOptions: NextAuthOptions = {
     // for increased security. If you want to make something available you added to the token (like access_token and
     // user.id from above) via the jwt() callback, you have to explicitly forward it here to make it available to the
     // client.
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       // Send properties to the client, like an access_token and user id from a provider.
       session.accessToken = token.accessToken;
 
@@ -55,7 +56,7 @@ const authOptions: NextAuthOptions = {
 
     // This callback is called whenever a JSON Web Token is created (i.e. at sign in) or updated (i.e. whenever a
     // session is accessed in the client). The returned value will be encrypted, and it is stored in a cookie.
-    async jwt({ token, account, profile }) {
+    async jwt({ token, account }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
         token.accessToken = account.access_token;

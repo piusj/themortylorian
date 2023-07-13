@@ -14,7 +14,7 @@ const mutationResolver =
   (resolver: MutationResolver) => (_: never, variables: never, context: GraphQLContext) =>
     resolver(variables, context);
 
-export default {
+const resolvers = {
   Query: {
     me: queryResolver((context) => {
       const { prisma, user } = context;
@@ -50,3 +50,5 @@ export default {
     ),
   },
 };
+
+export default resolvers;

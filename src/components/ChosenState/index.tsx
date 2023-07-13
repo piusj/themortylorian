@@ -10,7 +10,7 @@ export default function ChosenState({ correct, spy }: { correct: boolean; spy: C
       {correct ? (
         <>
           <Heading color="green.500">Genius! Morty would have got it wrong for sure!</Heading>
-          <Heading size="md">This is the spy's real ID</Heading>
+          <Heading size="md">This is the spy&apos;s real ID</Heading>
         </>
       ) : (
         <>

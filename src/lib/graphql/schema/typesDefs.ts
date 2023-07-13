@@ -1,4 +1,4 @@
-export default /* GraphQL */ `
+const typeDefs = /* GraphQL */ `
   type Highscore {
     id: String!
     user: User!
@@ -27,3 +27,5 @@ export default /* GraphQL */ `
     putGameResult(isCorrect: Boolean!): User!
   }
 `;
+
+export default typeDefs;
