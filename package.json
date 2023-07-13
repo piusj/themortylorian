@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "gqlcodegen": "node --require dotenv/config ./node_modules/.bin/graphql-codegen --config codegen.ts"
+    "gqlcodegen": "node --require dotenv/config ./node_modules/.bin/graphql-codegen --config codegen.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@apollo/client": "^3.7.16",
